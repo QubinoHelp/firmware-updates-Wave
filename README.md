@@ -15,8 +15,9 @@ When desired, Z-Wave JS will download the update(s) from the provided URL, verif
 > [!WARNING]
 > We **will not** accept firmware updates hosted by third parties. All updates must come from the respective device manufacturer. We make an exception for firmwares that are publicly hosted by the manufacturer, but those **will** still require the manufacturer's review before merging.
 
-We kindly ask you to open a PR for any changes to firmware updates.
-This way they can automatically be checked for errors.
+The easiest way to provide a firmware definition is to open an issue using one of the [firmware submission issue templates](issues/new/choose).
+
+For more complex cases, or if you prefer to edit the files directly, you can also open a PR that adds/modifies the definition files directly.
 
 See [the documentation](docs/firmware-files.md) for more information on how to author these files.
 
