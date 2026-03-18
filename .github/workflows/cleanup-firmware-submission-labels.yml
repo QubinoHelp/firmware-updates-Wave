@@ -1,0 +1,29 @@
+name: 'Z-Wave Bot: Firmware submission — clean up labels on PR close'
+
+on:
+  pull_request_target:
+    types: [closed]
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Remove submission labels from linked issue
+        uses: actions/github-script@v8
+        with:
+          # Keep this on GITHUB_TOKEN. When cleanup restores pending-approval
+          # after an unmerged close, we do not want that label change to fan
+          # out into the separate auto-approve workflow and recreate the PR.
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { default: action } = await import(
+              `${process.env.GITHUB_WORKSPACE}/.github/scripts/firmware-submission/cleanup-labels.mts`
+            );
+            await action({github, context});
