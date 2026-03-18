@@ -17,6 +17,7 @@ const cleanupLabelsModule = await import(cleanupLabelsModulePath);
 
 const {
 	createUpgradeEntry,
+	extractIssueTemplateFieldHeadings,
 	findDuplicateTargets,
 	findDuplicateUpgradeVariants,
 	getApprovalInvalidReason,
@@ -55,6 +56,97 @@ function createDevice(overrides: Partial<Device> = {}): Device {
 	};
 }
 
+function getDeviceFieldLabel(name: string, index: number): string {
+	return index === 1 ? name : `${name} (Device ${index})`;
+}
+
+function getUpgradeFieldLabel(name: string, index: number): string {
+	return index === 1 ? name : `${name} (Upgrade ${index})`;
+}
+
+function getSingleTargetUrlFieldLabel(index: number): string {
+	return index === 1 ? "Firmware URL" : `Firmware URL (Upgrade ${index})`;
+}
+
+function getSingleTargetTargetNumberFieldLabel(index: number): string {
+	return index === 1 ? "Target Number" : `Target Number (Upgrade ${index})`;
+}
+
+function createSingleTargetIssueBody({
+	deviceCount,
+	upgradeCount,
+	targetNumber = null,
+}: {
+	deviceCount: number;
+	upgradeCount: number;
+	targetNumber?: number | null;
+}): string {
+	const lines: string[] = [];
+
+	for (let deviceIndex = 1; deviceIndex <= deviceCount; deviceIndex++) {
+		lines.push(
+			`### ${getDeviceFieldLabel("Brand", deviceIndex)}`,
+			"",
+			`Brand ${deviceIndex}`,
+			`### ${getDeviceFieldLabel("Model", deviceIndex)}`,
+			"",
+			`Model ${deviceIndex}`,
+			`### ${getDeviceFieldLabel("Manufacturer ID", deviceIndex)}`,
+			"",
+			`0x00${deviceIndex}d`,
+			`### ${getDeviceFieldLabel("Product Type", deviceIndex)}`,
+			"",
+			`0x10${deviceIndex}0`,
+			`### ${getDeviceFieldLabel("Product ID", deviceIndex)}`,
+			"",
+			`0x20${deviceIndex}0`,
+			`### ${getDeviceFieldLabel("Firmware Version (Min)", deviceIndex)}`,
+			"",
+			"_No response_",
+			`### ${getDeviceFieldLabel("Firmware Version (Max)", deviceIndex)}`,
+			"",
+			"_No response_",
+		);
+	}
+
+	for (let upgradeIndex = 1; upgradeIndex <= upgradeCount; upgradeIndex++) {
+		lines.push(
+			`### ${getUpgradeFieldLabel("Firmware Version", upgradeIndex)}`,
+			"",
+			`1.${upgradeIndex}`,
+			`### ${getUpgradeFieldLabel("Changelog", upgradeIndex)}`,
+			"",
+			"### Fixed",
+			"",
+			`* Change ${upgradeIndex}`,
+			`### ${getUpgradeFieldLabel("Channel", upgradeIndex)}`,
+			"",
+			"stable",
+			`### ${getUpgradeFieldLabel("Region", upgradeIndex)}`,
+			"",
+			"All regions",
+			`### ${getUpgradeFieldLabel("Upgrade conditions", upgradeIndex)}`,
+			"",
+			"_No response_",
+		);
+		if (targetNumber != null) {
+			// Simulate an invalid submission where the user tries to set a target number in the single-target form.
+			lines.push(
+				`### ${getSingleTargetTargetNumberFieldLabel(upgradeIndex)}`,
+				"",
+				`${targetNumber}`,
+			);
+		}
+		lines.push(
+			`### ${getSingleTargetUrlFieldLabel(upgradeIndex)}`,
+			"",
+			`https://example.com/fw-${upgradeIndex}.gbl`,
+		);
+	}
+
+	return lines.join("\n");
+}
+
 function createIssuesMock(labels: string[] = []) {
 	const removeLabelCalls: string[] = [];
 	const addLabelsCalls: string[][] = [];
@@ -79,7 +171,7 @@ function createIssuesMock(labels: string[] = []) {
 	};
 }
 
-test("parseIssueBody preserves markdown headings inside textarea fields", (t) => {
+test("parseIssueBody supports multiple-target issue bodies and preserves markdown headings inside textarea fields", (t) => {
 	const body = `
 ### Brand
 
@@ -188,6 +280,71 @@ _No response_
 	t.is(sections.Channel, "stable");
 	t.is(sections["Target Number (Chip 1)"], "0");
 	t.is(sections["Firmware URL (Chip 1)"], "https://example.com/fw-0.gbl");
+});
+
+test("parseIssueBody supports single-target issue bodies with single and multiple devices and upgrades", (t) => {
+	const scenarios = [
+		{
+			deviceCount: 2,
+			upgradeCount: 2,
+			urlLabel: "Firmware URL (Upgrade 2)",
+		},
+		{ deviceCount: 2, upgradeCount: 1, urlLabel: "Firmware URL" },
+		{
+			deviceCount: 1,
+			upgradeCount: 2,
+			urlLabel: "Firmware URL (Upgrade 2)",
+		},
+		{ deviceCount: 1, upgradeCount: 1, urlLabel: "Firmware URL" },
+	];
+
+	for (const scenario of scenarios) {
+		const sections = parseIssueBody(
+			createSingleTargetIssueBody({
+				deviceCount: scenario.deviceCount,
+				upgradeCount: scenario.upgradeCount,
+			}),
+		) as Record<string, string | null>;
+
+		t.is(sections.Brand, "Brand 1");
+		t.is(
+			sections[getDeviceFieldLabel("Brand", scenario.deviceCount)],
+			`Brand ${scenario.deviceCount}`,
+		);
+		t.is(
+			sections[scenario.urlLabel],
+			`https://example.com/fw-${scenario.upgradeCount}.gbl`,
+		);
+		t.is(
+			sections[getUpgradeFieldLabel("Changelog", scenario.upgradeCount)],
+			`### Fixed\n\n* Change ${scenario.upgradeCount}`,
+		);
+	}
+});
+
+test("extractIssueTemplateFieldHeadings tolerates YAML indentation changes", (t) => {
+	const headings = extractIssueTemplateFieldHeadings(`
+attributes:
+    label: Brand
+  label: "Model"
+      label: 'Firmware URL'
+`);
+
+	t.deepEqual(headings, ["Brand", "Model", "Firmware URL"]);
+});
+
+test("parseIssueBody supports single-target issue bodies with explicit target-number fields", (t) => {
+	const sections = parseIssueBody(
+		createSingleTargetIssueBody({
+			deviceCount: 1,
+			upgradeCount: 2,
+			targetNumber: 2,
+		}),
+	) as Record<string, string | null>;
+
+	t.is(sections["Target Number"], "2");
+	t.is(sections["Target Number (Upgrade 2)"], "2");
+	t.is(sections["Firmware URL (Upgrade 2)"], "https://example.com/fw-2.gbl");
 });
 
 test("sameExactDeviceSet only matches identical normalized device sets", (t) => {
@@ -367,16 +524,25 @@ test("cleanup-labels does not restore pending-approval for merged submission PR 
 
 test("auto-approve workflow only resets on issue body edits", async (t) => {
 	const workflow = await readFile(
-		new URL("../.github/workflows/auto-approve-firmware-submission.yml", import.meta.url),
+		new URL(
+			"../.github/workflows/auto-approve-firmware-submission.yml",
+			import.meta.url,
+		),
 		"utf8",
 	);
 
-	t.regex(workflow, /reset-on-edit:[\s\S]*github\.event\.changes\.body != null/);
+	t.regex(
+		workflow,
+		/reset-on-edit:[\s\S]*github\.event\.changes\.body != null/,
+	);
 });
 
 test("cleanup workflow uses GITHUB_TOKEN so pending-approval restore does not auto-trigger reapproval", async (t) => {
 	const workflow = await readFile(
-		new URL("../.github/workflows/cleanup-firmware-submission-labels.yml", import.meta.url),
+		new URL(
+			"../.github/workflows/cleanup-firmware-submission-labels.yml",
+			import.meta.url,
+		),
 		"utf8",
 	);
 
@@ -450,6 +616,50 @@ test("parseUpgradeFilesFromSections keeps each chip row paired with its selected
 	]);
 });
 
+test("parseUpgradeFilesFromSections defaults single-target upgrades to target 0", (t) => {
+	const files = parseUpgradeFilesFromSections({
+		sections: {
+			"Firmware URL (Upgrade 2)": "https://example.com/fw-2.gbl",
+		},
+		upgradeIndex: 2,
+		errors: [],
+	});
+
+	t.deepEqual(files, [{ target: 0, url: "https://example.com/fw-2.gbl" }]);
+});
+
+test("parseUpgradeFilesFromSections rejects explicit target numbers in single-target issue bodies", (t) => {
+	const errors: string[] = [];
+	const files = parseUpgradeFilesFromSections({
+		sections: {
+			"Target Number (Upgrade 2)": "2",
+			"Firmware URL (Upgrade 2)": "https://example.com/fw-2.gbl",
+		},
+		upgradeIndex: 2,
+		errors,
+	});
+
+	t.deepEqual(files, [{ target: 0, url: "https://example.com/fw-2.gbl" }]);
+	t.deepEqual(errors, [
+		"'Target Number (Upgrade 2)' is not supported in the single-target submission form. That form always uses target number 0. Use the 'Firmware Submission' form instead.",
+	]);
+});
+
+test("parseUpgradeFilesFromSections accepts chip 1 labels without explicit target selection", (t) => {
+	const files = parseUpgradeFilesFromSections({
+		sections: {
+			"Firmware URL (Chip 1) (Upgrade 3)":
+				"https://example.com/fw-chip-1.gbl",
+		},
+		upgradeIndex: 3,
+		errors: [],
+	});
+
+	t.deepEqual(files, [
+		{ target: 0, url: "https://example.com/fw-chip-1.gbl" },
+	]);
+});
+
 test("createUpgradeEntry preserves submitted file order and targets", (t) => {
 	const entry = createUpgradeEntry({
 		version: "1.61",
@@ -480,6 +690,65 @@ test("createUpgradeEntry preserves submitted file order and targets", (t) => {
 			{ target: 0, url: "https://example.com/target-0.gbl" },
 		],
 	);
+});
+
+test("createUpgradeEntry uses top-level url and integrity for a single target 0 file", (t) => {
+	const entry = createUpgradeEntry({
+		version: "1.61",
+		changelog: "Test changelog",
+		channel: "stable",
+		region: null,
+		ifCondition: null,
+		files: [
+			{
+				target: 0,
+				url: "https://example.com/target-0.gbl",
+				integrity:
+					"sha256:0000000000000000000000000000000000000000000000000000000000000000",
+			},
+		],
+	}) as {
+		url?: string;
+		integrity?: string;
+		files?: Array<{ target: number; url: string }>;
+	};
+
+	t.is(entry.url, "https://example.com/target-0.gbl");
+	t.truthy(entry.integrity);
+	t.is(entry.files, undefined);
+});
+
+test("createUpgradeEntry keeps files for a single non-zero target file", (t) => {
+	const entry = createUpgradeEntry({
+		version: "1.61",
+		changelog: "Test changelog",
+		channel: "stable",
+		region: null,
+		ifCondition: null,
+		files: [
+			{
+				target: 2,
+				url: "https://example.com/target-2.gbl",
+				integrity:
+					"sha256:2222222222222222222222222222222222222222222222222222222222222222",
+			},
+		],
+	}) as {
+		url?: string;
+		integrity?: string;
+		files?: Array<{ target: number; url: string; integrity: string }>;
+	};
+
+	t.is(entry.url, undefined);
+	t.is(entry.integrity, undefined);
+	t.deepEqual(entry.files, [
+		{
+			target: 2,
+			url: "https://example.com/target-2.gbl",
+			integrity:
+				"sha256:2222222222222222222222222222222222222222222222222222222222222222",
+		},
+	]);
 });
 
 test("workflowRunPassed only treats successful conclusions as passing", (t) => {
