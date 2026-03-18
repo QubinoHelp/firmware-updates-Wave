@@ -1,5 +1,5 @@
 name: Firmware Submission (Single Target)
-description: Submit firmware update(s) for devices with a single upgradable target on target 0
+description: Submit firmware update(s) for devices with a single upgradable firmware on target 0
 labels: ['pending-approval']
 body:
   - type: markdown
