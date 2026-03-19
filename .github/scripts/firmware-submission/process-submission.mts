@@ -1,5 +1,9 @@
 import * as githubActions from "@actions/github";
 import { downloadFirmware, generateHash } from "@zwave-js/firmware-integrity";
+import {
+	parse as parseCommentJson,
+	stringify as stringifyCommentJson,
+} from "comment-json";
 import JSON5 from "json5";
 import { spawnSync } from "node:child_process";
 import * as fs from "node:fs";
@@ -284,7 +288,11 @@ function buildIssueFieldHeadingSequences(): string[][] {
 		"single-target-chip-1-with-target",
 	];
 	for (let deviceCount = 1; deviceCount <= MAX_DEVICES; deviceCount++) {
-		for (let upgradeCount = 1; upgradeCount <= MAX_UPGRADES; upgradeCount++) {
+		for (
+			let upgradeCount = 1;
+			upgradeCount <= MAX_UPGRADES;
+			upgradeCount++
+		) {
 			for (const fileLayout of fileLayouts) {
 				sequences.add(
 					JSON.stringify(
@@ -443,6 +451,33 @@ function loadFirmwareConfigs(): FirmwareConfigFile[] {
 				normalizeDevice(device),
 			),
 		};
+	});
+}
+
+export function appendUpgradesToFirmwareConfigText(
+	configText: string,
+	newUpgrades: readonly Record<string, any>[],
+): string {
+	const config = parseCommentJson<Record<string, any>>(configText);
+	if (!Array.isArray(config.upgrades)) {
+		throw new Error("Firmware config does not contain an upgrades array.");
+	}
+
+	for (const upgrade of newUpgrades) {
+		config.upgrades.push(upgrade);
+	}
+
+	return `${stringifyCommentJson(config, null, "\t")}\n`;
+}
+
+export async function formatWithPrettier(
+	text: string,
+	parser: string,
+	prettierConfig: Record<string, any> = {},
+): Promise<string> {
+	return prettier.format(text, {
+		...prettierConfig,
+		parser,
 	});
 }
 
@@ -616,7 +651,8 @@ export function parseIssueBody(body: string): Record<string, string | null> {
 			? candidateSequences
 					.filter(
 						(candidate) =>
-							candidate.headings[candidate.nextHeadingIndex] === heading,
+							candidate.headings[candidate.nextHeadingIndex] ===
+							heading,
 					)
 					.map((candidate) => ({
 						headings: candidate.headings,
@@ -888,7 +924,11 @@ function normalizeUpgradeVariant(upgrade: Record<string, any>): {
 function getUpgradeVariantKey(
 	variant: NonNullable<ReturnType<typeof normalizeUpgradeVariant>>,
 ): string {
-	return JSON.stringify([variant.version, variant.region, variant.ifCondition]);
+	return JSON.stringify([
+		variant.version,
+		variant.region,
+		variant.ifCondition,
+	]);
 }
 
 function describeUpgradeVariant(
@@ -1030,21 +1070,15 @@ export function parseUpgradeFilesFromSections({
 					? getSingleTargetTargetNumberFieldLabel(upgradeIndex)
 					: descriptor.targetLabels[0],
 		});
-		if (
-			urlLabel === singleTargetUrlLabel &&
-			targetRaw != null
-		) {
+		if (urlLabel === singleTargetUrlLabel && targetRaw != null) {
 			errors.push(
 				`'${targetLabel}' is not supported in the single-target submission form. That form always uses target number 0. Use the 'Firmware Submission' form instead.`,
 			);
 		}
 		const target =
 			targetRaw != null && urlLabel !== singleTargetUrlLabel
-				? (validateTargetNumber(
-						targetRaw,
-						targetLabel,
-						errors,
-					) ?? descriptor.defaultTarget)
+				? (validateTargetNumber(targetRaw, targetLabel, errors) ??
+					descriptor.defaultTarget)
 				: descriptor.defaultTarget;
 
 		files.push({ target, url });
@@ -1761,10 +1795,11 @@ export default async function main({
 		for (const upgrade of upgradeFormData) {
 			const raw = upgrade.changelog.trim().replace(/\r\n/g, "\n");
 			try {
-				const formatted = await prettier.format(raw, {
-					...prettierConfig,
-					parser: "markdown",
-				});
+				const formatted = await formatWithPrettier(
+					raw,
+					"markdown",
+					prettierConfig,
+				);
 				formattedChangelogs.push(formatted.trim());
 			} catch {
 				formattedChangelogs.push(raw);
@@ -1801,30 +1836,36 @@ export default async function main({
 			]);
 		}
 
-		const config = existingConfig
-			? {
-					...existingConfig,
-					upgrades: [
-						...(existingConfig.upgrades ?? []),
-						...newUpgrades,
-					],
-				}
-			: {
-					devices: devices.map((device) => {
-						const entry: Record<string, any> = {
-							brand: device.brand,
-							model: device.model,
-							manufacturerId: device.manufacturerId,
-							productType: device.productType,
-							productId: device.productId,
-						};
-						if (device.firmwareVersion) {
-							entry.firmwareVersion = device.firmwareVersion;
-						}
-						return entry;
-					}),
-					upgrades: newUpgrades,
-				};
+		const configText = matchedExistingFile
+			? appendUpgradesToFirmwareConfigText(
+					fs.readFileSync(matchedExistingFile.absolutePath, "utf-8"),
+					newUpgrades,
+				)
+			: `${stringifyCommentJson(
+					{
+						devices: devices.map((device) => {
+							const entry: Record<string, any> = {
+								brand: device.brand,
+								model: device.model,
+								manufacturerId: device.manufacturerId,
+								productType: device.productType,
+								productId: device.productId,
+							};
+							if (device.firmwareVersion) {
+								entry.firmwareVersion = device.firmwareVersion;
+							}
+							return entry;
+						}),
+						upgrades: newUpgrades,
+					},
+					null,
+					"\t",
+				)}\n`;
+		const formattedConfigText = await formatWithPrettier(
+			configText,
+			"jsonc",
+			prettierConfig,
+		);
 
 		console.log(
 			"Re-checking approved issue state before writing changes...",
@@ -1832,11 +1873,7 @@ export default async function main({
 		await ensureIssueStillApproved(true);
 		console.log(`Writing config to ${relativeFilePath}...`);
 		fs.mkdirSync(path.dirname(absoluteFilePath), { recursive: true });
-		fs.writeFileSync(
-			absoluteFilePath,
-			`${JSON.stringify(config, null, "\t")}\n`,
-			"utf-8",
-		);
+		fs.writeFileSync(absoluteFilePath, formattedConfigText, "utf-8");
 
 		git("add", relativeFilePath);
 		const lastVersion =
