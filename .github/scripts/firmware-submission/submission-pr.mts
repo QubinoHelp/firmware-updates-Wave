@@ -24,9 +24,17 @@ export async function minimizeExistingStatusComments(
 			comment.user?.login === SUBMISSION_PR_AUTHOR,
 	);
 
+	console.log(
+		`Found ${statusComments.length} status comment(s) to minimize`
+		+ ` (out of ${comments.length} total).`,
+	);
+
 	for (const comment of statusComments) {
 		try {
-			await octokit.graphql(
+			console.log(
+				`Minimizing comment ${comment.id} (node_id: ${comment.node_id})...`,
+			);
+			const result = await octokit.graphql(
 				`mutation($id: ID!) {
 					minimizeComment(input: {subjectId: $id, classifier: OUTDATED}) {
 						minimizedComment { isMinimized }
@@ -34,8 +42,12 @@ export async function minimizeExistingStatusComments(
 				}`,
 				{ id: comment.node_id },
 			);
-		} catch {
-			// Best effort only.
+			console.log("Minimize result:", JSON.stringify(result));
+		} catch (error) {
+			console.log(
+				"Failed to minimize comment:",
+				error instanceof Error ? error.message : String(error),
+			);
 		}
 	}
 }
