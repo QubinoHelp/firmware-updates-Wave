@@ -1,7 +1,7 @@
 import type { GitHubScriptContext } from "../types.mts";
 import {
-	SUBMISSION_COMMENT_TAG,
 	getSubmissionIssueNumberFromPR,
+	postStatusComment,
 } from "./submission-pr.mts";
 const SUBMISSION_LABELS = ["processing", "submitted", "checks-failed"];
 
@@ -153,39 +153,7 @@ export default async function main({
 		}
 	}
 
-	const existingComments = await github.paginate(
-		github.rest.issues.listComments,
-		{ owner, repo, issue_number: issueNumber },
-	);
-	const statusComments = existingComments.filter(
-		(comment) =>
-			comment.body?.endsWith(SUBMISSION_COMMENT_TAG) &&
-			comment.user?.login === "zwave-js-bot",
-	);
-	for (const comment of statusComments) {
-		try {
-			await github.graphql(
-				`mutation($id: ID!) {
-					minimizeComment(input: {subjectId: $id, classifier: OUTDATED}) {
-						minimizedComment { isMinimized }
-					}
-				}`,
-				{ id: comment.node_id },
-			);
-		} catch (error) {
-			console.log(
-				"Could not minimize existing comment:",
-				getErrorMessage(error),
-			);
-		}
-	}
-
-	await github.rest.issues.createComment({
-		owner,
-		repo,
-		issue_number: issueNumber,
-		body: `${commentBody}\n${SUBMISSION_COMMENT_TAG}`,
-	});
+	await postStatusComment(github, owner, repo, issueNumber, commentBody);
 
 	const addLabel = async (label: string): Promise<void> => {
 		try {

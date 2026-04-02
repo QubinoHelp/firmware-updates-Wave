@@ -17,6 +17,9 @@ jobs:
       (github.event.label.name == 'pending-approval' ||
       (github.event.action == 'opened' &&
       contains(github.event.issue.labels.*.name, 'pending-approval')))
+    concurrency:
+      group: firmware-submission-approve-${{ github.event.issue.number }}
+      cancel-in-progress: true
     runs-on: ubuntu-latest
     permissions:
       contents: read

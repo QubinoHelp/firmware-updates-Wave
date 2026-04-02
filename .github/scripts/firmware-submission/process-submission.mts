@@ -13,8 +13,8 @@ import prettier from "prettier";
 import semver from "semver";
 import type { GitHubScriptContext } from "../types.mts";
 import {
-	SUBMISSION_COMMENT_TAG,
 	createSubmissionPRBody,
+	postStatusComment as postStatusCommentShared,
 } from "./submission-pr.mts";
 
 const { getOctokit } = githubActions;
@@ -1170,48 +1170,14 @@ export default async function main({
 		}
 	};
 
-	const minimizeExistingStatusComments = async (): Promise<void> => {
-		const comments = await botOctokit.paginate(
-			botOctokit.rest.issues.listComments,
-			{
-				owner,
-				repo,
-				issue_number: issueNumber,
-			},
-		);
-
-		const statusComments = comments.filter(
-			(comment) =>
-				comment.body?.endsWith(SUBMISSION_COMMENT_TAG) &&
-				comment.user?.login === "zwave-js-bot",
-		);
-
-		for (const comment of statusComments) {
-			try {
-				await botOctokit.graphql(
-					`
-					mutation($id: ID!) {
-						minimizeComment(input: {subjectId: $id, classifier: OUTDATED}) {
-							minimizedComment { isMinimized }
-						}
-					}
-				`,
-					{ id: comment.node_id },
-				);
-			} catch {
-				// Best effort only.
-			}
-		}
-	};
-
 	const postStatusComment = async (body: string): Promise<void> => {
-		await minimizeExistingStatusComments();
-		await botOctokit.rest.issues.createComment({
+		await postStatusCommentShared(
+			botOctokit,
 			owner,
 			repo,
-			issue_number: issueNumber,
-			body: `${body}\n${SUBMISSION_COMMENT_TAG}`,
-		});
+			issueNumber,
+			body,
+		);
 	};
 
 	const failWithErrors = async (errors: string[]): Promise<never> => {
@@ -1863,7 +1829,7 @@ export default async function main({
 				)}\n`;
 		const formattedConfigText = await formatWithPrettier(
 			configText,
-			"jsonc",
+			"json",
 			prettierConfig,
 		);
 
