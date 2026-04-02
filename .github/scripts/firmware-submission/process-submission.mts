@@ -1790,7 +1790,7 @@ export default async function main({
 		}
 
 		const prettierConfig =
-			(await prettier.resolveConfig(workspaceRoot)) ?? {};
+			(await prettier.resolveConfig(absoluteFilePath)) ?? {};
 		const formattedChangelogs: string[] = [];
 		for (const upgrade of upgradeFormData) {
 			const raw = upgrade.changelog.trim().replace(/\r\n/g, "\n");
