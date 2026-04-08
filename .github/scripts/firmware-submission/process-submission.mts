@@ -454,7 +454,7 @@ function loadFirmwareConfigs(): FirmwareConfigFile[] {
 	});
 }
 
-export function appendUpgradesToFirmwareConfigText(
+export function insertUpgradesToFirmwareConfigText(
 	configText: string,
 	newUpgrades: readonly Record<string, any>[],
 ): string {
@@ -464,7 +464,28 @@ export function appendUpgradesToFirmwareConfigText(
 	}
 
 	for (const upgrade of newUpgrades) {
-		config.upgrades.push(upgrade);
+		const newVersion =
+			typeof upgrade.version === "string" ? upgrade.version : "";
+		const existingUpgrades = config.upgrades as any[];
+		// Find the first existing upgrade whose version is strictly lower than
+		// the new upgrade's version, so higher versions come first.
+		const insertIndex =
+			newVersion !== ""
+				? existingUpgrades.findIndex(
+						(existing) =>
+							typeof existing.version === "string" &&
+							semver.gt(
+								padVersion(newVersion),
+								padVersion(existing.version),
+							),
+					)
+				: -1;
+
+		if (insertIndex === -1) {
+			config.upgrades.push(upgrade);
+		} else {
+			existingUpgrades.splice(insertIndex, 0, upgrade);
+		}
 	}
 
 	return `${stringifyCommentJson(config, null, "\t")}\n`;
@@ -1803,7 +1824,7 @@ export default async function main({
 		}
 
 		const configText = matchedExistingFile
-			? appendUpgradesToFirmwareConfigText(
+			? insertUpgradesToFirmwareConfigText(
 					fs.readFileSync(matchedExistingFile.absolutePath, "utf-8"),
 					newUpgrades,
 				)

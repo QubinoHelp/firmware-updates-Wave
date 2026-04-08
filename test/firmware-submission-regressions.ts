@@ -17,7 +17,7 @@ const resetOnEditModule = await import(resetOnEditModulePath);
 const cleanupLabelsModule = await import(cleanupLabelsModulePath);
 
 const {
-	appendUpgradesToFirmwareConfigText,
+	insertUpgradesToFirmwareConfigText,
 	createUpgradeEntry,
 	extractIssueTemplateFieldHeadings,
 	findDuplicateTargets,
@@ -695,7 +695,7 @@ test("createUpgradeEntry preserves submitted file order and targets", (t) => {
 	);
 });
 
-test("appendUpgradesToFirmwareConfigText preserves existing JSONC comments after formatting", async (t) => {
+test("insertUpgradesToFirmwareConfigText preserves existing JSONC comments after formatting", async (t) => {
 	const existingConfig = `{
 	"devices": [
 		{
@@ -719,7 +719,7 @@ test("appendUpgradesToFirmwareConfigText preserves existing JSONC comments after
 `;
 
 	const updatedConfig = await formatWithPrettier(
-		appendUpgradesToFirmwareConfigText(existingConfig, [
+		insertUpgradesToFirmwareConfigText(existingConfig, [
 			createUpgradeEntry({
 				version: "1.61",
 				changelog: "New release",
@@ -735,7 +735,7 @@ test("appendUpgradesToFirmwareConfigText preserves existing JSONC comments after
 					},
 				],
 			}),
-			]),
+		]),
 		"jsonc",
 		{
 			endOfLine: "lf",
@@ -753,7 +753,72 @@ test("appendUpgradesToFirmwareConfigText preserves existing JSONC comments after
 	} = JSON5.parse(updatedConfig);
 	t.deepEqual(
 		parsed.upgrades.map((upgrade) => upgrade.version),
-		["1.60", "1.61"],
+		["1.61", "1.60"],
+	);
+});
+
+test("insertUpgradesToFirmwareConfigText inserts new upgrades in descending version order", (t) => {
+	const makeConfig = (versions: string[]) =>
+		JSON.stringify({
+			devices: [],
+			upgrades: versions.map((version) => ({ version })),
+		});
+
+	// New higher version is inserted before existing lower version
+	let result = JSON5.parse(
+		insertUpgradesToFirmwareConfigText(makeConfig(["1.60"]), [
+			{ version: "1.70" },
+		]),
+	);
+	t.deepEqual(
+		result.upgrades.map((u) => u.version),
+		["1.70", "1.60"],
+	);
+
+	// New lower version is appended after existing higher version
+	result = JSON5.parse(
+		insertUpgradesToFirmwareConfigText(makeConfig(["1.70"]), [
+			{ version: "1.60" },
+		]),
+	);
+	t.deepEqual(
+		result.upgrades.map((u) => u.version),
+		["1.70", "1.60"],
+	);
+
+	// New version is inserted between two existing versions
+	result = JSON5.parse(
+		insertUpgradesToFirmwareConfigText(makeConfig(["1.70", "1.50"]), [
+			{ version: "1.60" },
+		]),
+	);
+	t.deepEqual(
+		result.upgrades.map((u) => u.version),
+		["1.70", "1.60", "1.50"],
+	);
+
+	// Multiple new upgrades with the same version are grouped together
+	result = JSON5.parse(
+		insertUpgradesToFirmwareConfigText(makeConfig(["1.70", "1.50"]), [
+			{ version: "1.60", region: "europe" },
+			{ version: "1.60", region: "usa" },
+		]),
+	);
+	t.deepEqual(
+		result.upgrades.map((u) => u.version),
+		["1.70", "1.60", "1.60", "1.50"],
+	);
+
+	// Multiple new upgrades with different versions are each inserted at the right position
+	result = JSON5.parse(
+		insertUpgradesToFirmwareConfigText(makeConfig(["1.80", "1.50"]), [
+			{ version: "1.60" },
+			{ version: "1.70" },
+		]),
+	);
+	t.deepEqual(
+		result.upgrades.map((u) => u.version),
+		["1.80", "1.70", "1.60", "1.50"],
 	);
 });
 
