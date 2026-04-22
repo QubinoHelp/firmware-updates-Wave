@@ -14,6 +14,17 @@
 	],
 	"upgrades": [
 		{
+			"version": "13.0",
+			"changelog": "- SDK with fixed dead node issue",
+			"region": "usa",
+			"files": [
+				{
+					"url": "https://raw.githubusercontent.com/QubinoHelp/Shelly_Wave_FW_OTA/b20d9850f6932b68c55252a100bdfcba558d7fbe/Wave_Plug_US/US/Wave_PlugUS_800_US_LR_20250204_1000_QNPL-001X16US_%5B13.00%5D_9DD2F96C.gbl",
+					"integrity": "sha256:608a54b1d9e1a2747411a28a4ed25cc9ff73f3492fa9c2ec73a1fa51d47f02a3"
+				}
+			]
+		},
+		{
 			"version": "10.11",
 			"changelog": "- optimised temperature conversion table\n- Meter Reset Command fixed\n- other minor improvements",
 			"region": "usa",

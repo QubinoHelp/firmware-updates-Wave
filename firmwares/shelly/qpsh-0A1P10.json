@@ -14,6 +14,39 @@
 	],
 	"upgrades": [
 		{
+			"version": "12.3",
+			"changelog": "- SDK with fixed dead node issue\n- Added detached mode\n- Added inclusion option with disabled input parameter\n- Added manual configuration for up/down parameters (functional via physical inputs; not yet via Z-Wave commands)\n- Added parameter state reporting to controller\n- Added Meter CC support to endpoints\n- Fixed associations to resolve Home Assistant issues\n- Fixed LED signaling\n- Fixed circuit protection\n- Fixed Meter OP parameter (disables end switches when set to 10)\n- Fixed Meter CC (no watt reporting when parameter 36 is set to 0)\n- Fixed venetian mode\n- Fixed parameter 39\n- Fixed calibration issue\n- Fixed abnormal output when parameter 85 is set to 0\n- Fixed multilevel report & multilevel switch start/stop behavior\n- other minor improvements",
+			"region": "australia/new zealand",
+			"files": [
+				{
+					"url": "https://raw.githubusercontent.com/QubinoHelp/Shelly_Wave_FW_OTA/b20d9850f6932b68c55252a100bdfcba558d7fbe/Wave_Pro_Shutter/ANZ/Wave_PRO shutter_800_ANZ_20260401_1343_QPSH-0A1P10AU_%5Bv12.03%5D_2144DF1C.gbl",
+					"integrity": "sha256:9fe1d96159f340000b17de563b80f9c889c23dc746e1333b6ad07a52add87c2d"
+				}
+			]
+		},
+		{
+			"version": "12.3",
+			"changelog": "- SDK with fixed dead node issue\n- Added detached mode\n- Added inclusion option with disabled input parameter\n- Added manual configuration for up/down parameters (functional via physical inputs; not yet via Z-Wave commands)\n- Added parameter state reporting to controller\n- Added Meter CC support to endpoints\n- Fixed associations to resolve Home Assistant issues\n- Fixed LED signaling\n- Fixed circuit protection\n- Fixed Meter OP parameter (disables end switches when set to 10)\n- Fixed Meter CC (no watt reporting when parameter 36 is set to 0)\n- Fixed venetian mode\n- Fixed parameter 39\n- Fixed calibration issue\n- Fixed abnormal output when parameter 85 is set to 0\n- Fixed multilevel report & multilevel switch start/stop behavior\n- other minor improvements",
+			"region": "europe",
+			"files": [
+				{
+					"url": "https://raw.githubusercontent.com/QubinoHelp/Shelly_Wave_FW_OTA/b20d9850f6932b68c55252a100bdfcba558d7fbe/Wave_Pro_Shutter/EU/Wave_PRO shutter_800_EU_LR_20260401_1341_QUSH-0A1P10EU_%5Bv12.03%5D_9DD2F96C.gbl",
+					"integrity": "sha256:05ed5fbfeba2051fff447d97cf6069b11ea4fb16b1a6bdf95f7c851f5486af71"
+				}
+			]
+		},
+		{
+			"version": "12.3",
+			"changelog": "- SDK with fixed dead node issue\n- Added detached mode\n- Added inclusion option with disabled input parameter\n- Added manual configuration for up/down parameters (functional via physical inputs; not yet via Z-Wave commands)\n- Added parameter state reporting to controller\n- Added Meter CC support to endpoints\n- Fixed associations to resolve Home Assistant issues\n- Fixed LED signaling\n- Fixed circuit protection\n- Fixed Meter OP parameter (disables end switches when set to 10)\n- Fixed Meter CC (no watt reporting when parameter 36 is set to 0)\n- Fixed venetian mode\n- Fixed parameter 39\n- Fixed calibration issue\n- Fixed abnormal output when parameter 85 is set to 0\n- Fixed multilevel report & multilevel switch start/stop behavior\n- other minor improvements",
+			"region": "usa",
+			"files": [
+				{
+					"url": "https://raw.githubusercontent.com/QubinoHelp/Shelly_Wave_FW_OTA/b20d9850f6932b68c55252a100bdfcba558d7fbe/Wave_Pro_Shutter/US/Wave_PRO shutter_800_US_LR_20260401_1342_QUSH-0A1P10US_%5Bv12.03%5D_2144DF1C.gbl",
+					"integrity": "sha256:a80249b2955345d09f6e5e3341ee7a5cbbaa96b5a4398299d02eae7055a397f3"
+				}
+			]
+		},
+		{
 			"version": "10.8",
 			"changelog": "- optimised temperature conversion table\n- fixed Power Up Shutter Position Report\n- fixed unsolicited Power Report\n- OTA in progress signalisation\n- other minor improvements\n- other minor improvements",
 			"region": "europe",

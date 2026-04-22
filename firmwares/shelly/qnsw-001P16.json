@@ -14,6 +14,39 @@
 	],
 	"upgrades": [
 		{
+			"version": "14.1",
+			"changelog": "- Corrected Overvoltage threshold to 240+15%V",
+			"region": "australia/new zealand",
+			"files": [
+				{
+					"url": "https://raw.githubusercontent.com/QubinoHelp/Shelly_Wave_FW_OTA/68354455ae3912c7dafa269c8793bc6dd34ebe65/Wave_1PM/ANZ/Wave_1PM_800_ANZ_20260311_0822_QNSW-001P16AU_%5Bv14.01%5D_9DD2F96C.gbl",
+					"integrity": "sha256:961ca16670ee96935adfdfe789a30d245c853692b533c0986824c8ceb4dfe080"
+				}
+			]
+		},
+		{
+			"version": "14.1",
+			"changelog": "- Corrected Overvoltage threshold to 240+15%V",
+			"region": "europe",
+			"files": [
+				{
+					"url": "https://raw.githubusercontent.com/QubinoHelp/Shelly_Wave_FW_OTA/68354455ae3912c7dafa269c8793bc6dd34ebe65/Wave_1PM/EU/Wave_1PM_800_EU_LR_20260302_1609_QLSW-001P16EU_%5Bv14.01%5D_EB201890.gbl",
+					"integrity": "sha256:b4c9d1c9b2c03d9fbb977f08c84b79ebf3c46136a125dbd1c51e75f33165ab71"
+				}
+			]
+		},
+		{
+			"version": "14.1",
+			"changelog": "- Corrected Overvoltage threshold to 240+15%V",
+			"region": "usa",
+			"files": [
+				{
+					"url": "https://raw.githubusercontent.com/QubinoHelp/Shelly_Wave_FW_OTA/68354455ae3912c7dafa269c8793bc6dd34ebe65/Wave_1PM/US/Wave_1PM_800_US_LR_20260311_0819_QLSW-001P15US_%5Bv14.01%5D_0FE4B35C.gbl",
+					"integrity": "sha256:f676871f67591b27f2096b5f63929d1eba2f06addcd6e0bdff3b60f75b86d307"
+				}
+			]
+		},
+		{
 			"version": "14.0",
 			"changelog": "- SDK with fixed dead node issue",
 			"region": "europe",

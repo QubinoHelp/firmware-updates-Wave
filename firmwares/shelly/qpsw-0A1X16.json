@@ -14,6 +14,39 @@
 	],
 	"upgrades": [
 		{
+			"version": "13.1",
+			"changelog": "- SDK with fixed dead node issue\n- Fixed soft reset from input toggles\n- Fixed sw2 detached mode parameter default -> 1 (active)\n- Removed parameters 36/39\n- Removed meter cc\n- Removed power notifications\n- Removed parameters no. 91, 92, 93, 94\n- Removed Inclusion/exclusion\" indication (2x ON/OFF output)\n- Changed energy reporting to two decimal points\n- other minor improvements",
+			"region": "australia/new zealand",
+			"files": [
+				{
+					"url": "https://raw.githubusercontent.com/QubinoHelp/Shelly_Wave_FW_OTA/b20d9850f6932b68c55252a100bdfcba558d7fbe/Wave_Pro_1/ANZ/Wave_Pro_1_ANZ_20260223_1020_QPSW-0A1X16AU_%5Bv13.01%5D_9DD2F96C.gbl",
+					"integrity": "sha256:bd5c8d8c2f1c6570f54ae24f2d8cfc96b29408116897abc6f52a5db6637583ab"
+				}
+			]
+		},
+		{
+			"version": "13.1",
+			"changelog": "- SDK with fixed dead node issue\n- Fixed soft reset from input toggles\n- Fixed sw2 detached mode parameter default -> 1 (active)\n- Removed parameters 36/39\n- Removed meter cc\n- Removed power notifications\n- Removed parameters no. 91, 92, 93, 94\n- Removed Inclusion/exclusion\" indication (2x ON/OFF output)\n- Changed energy reporting to two decimal points\n- other minor improvements",
+			"region": "europe",
+			"files": [
+				{
+					"url": "https://raw.githubusercontent.com/QubinoHelp/Shelly_Wave_FW_OTA/b20d9850f6932b68c55252a100bdfcba558d7fbe/Wave_Pro_1/EU/Wave_Pro_1_EU_LR_20260217_1026_QUSW-0A1X16EU_%5Bv13.01%5D_2144DF1C.gbl",
+					"integrity": "sha256:264fe13b5a3ed2eaa598b8043f4842b7fce67d91d603acb408105741b35e7a3a"
+				}
+			]
+		},
+		{
+			"version": "13.1",
+			"changelog": "- SDK with fixed dead node issue\n- Fixed soft reset from input toggles\n- Fixed sw2 detached mode parameter default -> 1 (active)\n- Removed parameters 36/39\n- Removed meter cc\n- Removed power notifications\n- Removed parameters no. 91, 92, 93, 94\n- Removed Inclusion/exclusion\" indication (2x ON/OFF output)\n- Changed energy reporting to two decimal points\n- other minor improvements",
+			"region": "usa",
+			"files": [
+				{
+					"url": "https://raw.githubusercontent.com/QubinoHelp/Shelly_Wave_FW_OTA/b20d9850f6932b68c55252a100bdfcba558d7fbe/Wave_Pro_1/US/Wave_Pro_1_US_LR_20260223_1018_QUSW-0A1X16US_%5Bv13.01%5D_2144DF1C (1).gbl",
+					"integrity": "sha256:a37eb5ebac2b61f0b5e7d78a914382415296986aed02cf6fee8a84ebd07abecf"
+				}
+			]
+		},
+		{
 			"version": "11.1",
 			"changelog": "- optimised temperature conversion table\n- - other minor improvements",
 			"region": "europe",

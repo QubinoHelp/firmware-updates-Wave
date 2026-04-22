@@ -14,6 +14,39 @@
 	],
 	"upgrades": [
 		{
+			"version": "13.1",
+			"changelog": "- SDK with fixed dead node issue\n- Fixed Association\n- Fixed Part number\n- Fixed Indicator CC support\n- Fixed short press for Central Scene manager (200ms -> 500ms)\n- Fixed Binary Switch now reports state at boot up\n- Fixed Parameters 1 - 4 to properly handle value 1\n- Added Parameter 118 (switch exclusion enable/disable)\n- Added Parameter 117 - Reboot device\n- Added Support for EU LR\n- Changed Association handling into a more modern, safe, implementation\n- Other minor fixes and improvements",
+			"region": "australia/new zealand",
+			"files": [
+				{
+					"url": "https://raw.githubusercontent.com/QubinoHelp/Shelly_Wave_FW_OTA/68354455ae3912c7dafa269c8793bc6dd34ebe65/Wave_i4/ANZ/Wave_i4_800_ANZ_20260312_1043_QNSN-0A24XAU_%5Bv13.01%5D_0FE4B35C.gbl",
+					"integrity": "sha256:207fda76e7f4286a767dece948869d412cbdc5a0c365e014c5813ef11547718b"
+				}
+			]
+		},
+		{
+			"version": "13.1",
+			"changelog": "- SDK with fixed dead node issue\n- Fixed Association\n- Fixed Part number\n- Fixed Indicator CC support\n- Fixed short press for Central Scene manager (200ms -> 500ms)\n- Fixed Binary Switch now reports state at boot up\n- Fixed Parameters 1 - 4 to properly handle value 1\n- Added Parameter 118 (switch exclusion enable/disable)\n- Added Parameter 117 - Reboot device\n- Added Support for EU LR\n- Changed Association handling into a more modern, safe, implementation\n- Other minor fixes and improvements",
+			"region": "europe",
+			"files": [
+				{
+					"url": "https://raw.githubusercontent.com/QubinoHelp/Shelly_Wave_FW_OTA/68354455ae3912c7dafa269c8793bc6dd34ebe65/Wave_i4/EU/Wave_i4_800_EU_LR_20260312_1043_QLSN-0A24XEU_%5Bv13.01%5D_EB201890.gbl",
+					"integrity": "sha256:5c8e8347b243bfb536738fae467457428e38f97de09d75860670ba3201f80f7a"
+				}
+			]
+		},
+		{
+			"version": "13.1",
+			"changelog": "- SDK with fixed dead node issue\n- Fixed Association\n- Fixed Part number\n- Fixed Indicator CC support\n- Fixed short press for Central Scene manager (200ms -> 500ms)\n- Fixed Binary Switch now reports state at boot up\n- Fixed Parameters 1 - 4 to properly handle value 1\n- Added Parameter 118 (switch exclusion enable/disable)\n- Added Parameter 117 - Reboot device\n- Added Support for EU LR\n- Changed Association handling into a more modern, safe, implementation\n- Other minor fixes and improvements",
+			"region": "usa",
+			"files": [
+				{
+					"url": "https://raw.githubusercontent.com/QubinoHelp/Shelly_Wave_FW_OTA/68354455ae3912c7dafa269c8793bc6dd34ebe65/Wave_i4/US/Wave_i4_800_US_LR_20260312_1043_QLSN-0A24XUS_%5Bv13.01%5D_EB201890.gbl",
+					"integrity": "sha256:86c2a0f3588e2f735442262f0c0e92cb04171d54afb5f92df3405164f2214d79"
+				}
+			]
+		},
+		{
 			"version": "11.5",
 			"changelog": "- Binary switch report at boot up\n- Parameters 1 - 4 value 1 fixed\n- optimised temperature conversion table",
 			"region": "europe",

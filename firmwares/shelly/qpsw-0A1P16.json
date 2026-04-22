@@ -14,6 +14,39 @@
 	],
 	"upgrades": [
 		{
+			"version": "13.2",
+			"changelog": "- SDK with fixed dead node issue\n- Fixed Overvoltage (230V + 15% -> 240V + 15%)\n- Fixed Overcurrent (25.5A -> 16A + 15%)\n- Fixed soft reset from input toggles\n- Fixed sw2 detached mode parameter default -> 1 (active)\n- Removed parameters no. 91, 92, 93, 94\n- Removed Inclusion/exclusion indication (2x ON/OFF output)\n- Changed energy reporting to two decimal points\n- other minor improvements",
+			"region": "australia/new zealand",
+			"files": [
+				{
+					"url": "https://raw.githubusercontent.com/QubinoHelp/Shelly_Wave_FW_OTA/b20d9850f6932b68c55252a100bdfcba558d7fbe/Wave_Pro_1PM/ANZ/Wave_Pro_1PM_ANZ_20260229_1040_QPSW-0A1P16AU_%5Bv13.02%5D_0FE4B35C.gbl",
+					"integrity": "sha256:dc65eb056519fb27ebb3a4d2a094201a7e1afb19f5754d83d41eabc4ba447b4e"
+				}
+			]
+		},
+		{
+			"version": "13.2",
+			"changelog": "- SDK with fixed dead node issue\n- Fixed Overvoltage (230V + 15% -> 240V + 15%)\n- Fixed Overcurrent (25.5A -> 16A + 15%)\n- Fixed soft reset from input toggles\n- Fixed sw2 detached mode parameter default -> 1 (active)\n- Removed parameters no. 91, 92, 93, 94\n- Removed Inclusion/exclusion indication (2x ON/OFF output)\n- Changed energy reporting to two decimal points\n- other minor improvements",
+			"region": "europe",
+			"files": [
+				{
+					"url": "https://raw.githubusercontent.com/QubinoHelp/Shelly_Wave_FW_OTA/b20d9850f6932b68c55252a100bdfcba558d7fbe/Wave_Pro_1PM/EU/Wave_Pro_1PM_EU_LR_20260229_1043_QUSW-0A1P16EU_%5Bv13.02%5D_EB201890.gbl",
+					"integrity": "sha256:14d5af12ddd82da59c477214656a86faad98add6dbe79b269b4389034294ec1c"
+				}
+			]
+		},
+		{
+			"version": "13.2",
+			"changelog": "- SDK with fixed dead node issue\n- Fixed Overvoltage (230V + 15% -> 240V + 15%)\n- Fixed Overcurrent (25.5A -> 16A + 15%)\n- Fixed soft reset from input toggles\n- Fixed sw2 detached mode parameter default -> 1 (active)\n- Removed parameters no. 91, 92, 93, 94\n- Removed Inclusion/exclusion indication (2x ON/OFF output)\n- Changed energy reporting to two decimal points\n- other minor improvements",
+			"region": "usa",
+			"files": [
+				{
+					"url": "https://raw.githubusercontent.com/QubinoHelp/Shelly_Wave_FW_OTA/b20d9850f6932b68c55252a100bdfcba558d7fbe/Wave_Pro_1PM/US/Wave_Pro_1PM_US_LR_20260229_1040_QUSW-0A1P15US_%5Bv13.02%5D_0FE4B35C.gbl",
+					"integrity": "sha256:88e9a42c48e682ecf62a5c99a36f2dd201dea0da13369045d9a37876cf38271b"
+				}
+			]
+		},
+		{
 			"version": "11.3",
 			"changelog": "- minor improvements",
 			"region": "europe",

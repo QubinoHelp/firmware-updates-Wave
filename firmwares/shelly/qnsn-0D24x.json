@@ -1,35 +1,61 @@
 {
-	"devices": [
-		{
-			"brand": "Shelly Qubino",
-			"model": "Wave i4 DC",
-			"manufacturerId": "0x0460",
-			"productType": "0x0009",
-			"productId": "0x0082",
-			"firmwareVersion": {
-				"min": "0.0",
-				"max": "255.255"
-			}
-		}
-	],
-	"upgrades": [
-		{
-			"version": "11.5",
-			"changelog": "- Binary switch report at boot up\n- Parameters 1 - 4 value 1 fixed",
-			"region": "europe",
-			"files": [
-				{
-					"url": "https://github.com/QubinoHelp/Shelly_Wave_FW_OTA/raw/d3c93f6c456ab635e40b1c03197060ccb1fcd8ba/Wave_i4_DC/EU/Wave_i4_DC_800_EU_20240523_1558_QNSN-0D24XEU_%5B11.05%5D_9DD2F96C%20(1).gbl",
-					"integrity": "sha256:7376ef6f758e89b68b04d5d6713407eb4bd3e9d6c8b33db6f8b67c7bea37dd92"
-				}
-			]
-		},
-		{
-			"version": "13.0",
-			"changelog": "- Fixed Association\n- Fixed Part number\n- Fixed Indicator CC support\n- Fixed short press for Central Scene manager (200ms -> 500ms)\n- Fixed Binary Switch now reports state at boot up\n- Fixed Parameters 1 - 4 to properly handle value\n- Added Parameter 117 - Reboot device\n- Added Support for EU LR\n- Changed Association handling into a more modern, safe, implementation\n- Other minor fixes and improvements",
-			"region": "europe",
-			"url": "https://github.com/QubinoHelp/Shelly_Wave_FW_OTA/raw/876e761b570b5f0f331bfaad431e859ebc826522/Wave_i4_DC/EU/Wave_i4_dc_800_EU_LR_20260312_0959_QLSN-0D24XEU_%5Bv13.00_2144DF1C.gbl",
-			"integrity": "sha256:7a05464b78d6a9312aa383c840e33662a9a5e0dcac0c451d8f9874b3b05a54d5"
-		}
-	]
+  "devices": [
+    {
+      "brand": "Shelly Qubino",
+      "model": "Wave i4 DC",
+      "manufacturerId": "0x0460",
+      "productType": "0x0009",
+      "productId": "0x0082",
+      "firmwareVersion": {
+        "min": "0.0",
+        "max": "255.255"
+      }
+    }
+  ],
+  "upgrades": [
+    {
+      "version": "13.0",
+      "changelog": "- SDK with fixed dead node issue\n- Fixed Association\n- Fixed Part number\n- Fixed Indicator CC support\n- Fixed short press for Central Scene manager (200ms -> 500ms)\n- Fixed Binary Switch now reports state at boot up\n- Fixed Parameters 1 - 4 to properly handle value 1\n- Added Parameter 117 - Reboot device\n- Added Support for EU LR\n- Changed Association handling into a more modern, safe, implementation\n- Other minor fixes and improvements",
+      "region": "australia/new zealand",
+      "files": [
+        {
+          "url":"https://raw.githubusercontent.com/QubinoHelp/Shelly_Wave_FW_OTA/b20d9850f6932b68c55252a100bdfcba558d7fbe/Wave_i4_DC/ANZ/Wave_i4_dc_800_ANZ_20260312_1000_QNSN-0D24XAU_%5Bv13.00%5D_2144DF1C.gbl",
+          "integrity":"sha256:ecc63402e1ba5181287a57779152afe347a97ce2c601e9d67eb148a6df613c1b"
+        }
+      ]
+    },
+    {
+      "version": "13.0",
+      "changelog": "- SDK with fixed dead node issue\n- Fixed Association\n- Fixed Part number\n- Fixed Indicator CC support\n- Fixed short press for Central Scene manager (200ms -> 500ms)\n- Fixed Binary Switch now reports state at boot up\n- Fixed Parameters 1 - 4 to properly handle value 1\n- Added Parameter 117 - Reboot device\n- Added Support for EU LR\n- Changed Association handling into a more modern, safe, implementation\n- Other minor fixes and improvements",
+      "region": "europe",
+      "files": [
+        {
+          "url": "https://raw.githubusercontent.com/QubinoHelp/Shelly_Wave_FW_OTA/b20d9850f6932b68c55252a100bdfcba558d7fbe/Wave_i4_DC/EU/Wave_i4_dc_800_EU_LR_20260312_0959_QLSN-0D24XEU_%5Bv13.00_2144DF1C.gbl",
+          "integrity": "sha256:7a05464b78d6a9312aa383c840e33662a9a5e0dcac0c451d8f9874b3b05a54d5"
+        }
+      ]
+    },
+    {
+      "version": "13.0",
+      "changelog": "- SDK with fixed dead node issue\n- Fixed Association\n- Fixed Part number\n- Fixed Indicator CC support\n- Fixed short press for Central Scene manager (200ms -> 500ms)\n- Fixed Binary Switch now reports state at boot up\n- Fixed Parameters 1 - 4 to properly handle value 1\n- Added Parameter 117 - Reboot device\n- Added Support for EU LR\n- Changed Association handling into a more modern, safe, implementation\n- Other minor fixes and improvements",
+      "region": "usa",
+      "files": [
+        {
+          "url": "https://raw.githubusercontent.com/QubinoHelp/Shelly_Wave_FW_OTA/b20d9850f6932b68c55252a100bdfcba558d7fbe/Wave_i4_DC/US/Wave_i4_dc_800_US_LR_20260312_1000_QLSN-0D24XUS_%5Bv13.00%5D_2144DF1C.gbl",
+          "integrity": "sha256:febafdafe4b5d0d4209f9260499df928da813939d486480e0ab851e0e10cfd0d"
+        }
+      ]
+    },
+    {
+      "version": "11.5",
+      "changelog": "- Binary switch report at boot up\n- Parameters 1 - 4 value 1 fixed",
+      "region": "europe",
+      "files": [
+        {
+          "url": "https://github.com/QubinoHelp/Shelly_Wave_FW_OTA/raw/d3c93f6c456ab635e40b1c03197060ccb1fcd8ba/Wave_i4_DC/EU/Wave_i4_DC_800_EU_20240523_1558_QNSN-0D24XEU_%5B11.05%5D_9DD2F96C%20(1).gbl",
+          "integrity": "sha256:7376ef6f758e89b68b04d5d6713407eb4bd3e9d6c8b33db6f8b67c7bea37dd92"
+        }
+      ]
+    }
+  ]
 }
