@@ -38,7 +38,7 @@
 		{
 			"version": "13.1",
 			"changelog": "- SDK with fixed dead node issue\n- Fixed soft reset from input toggles\n- Fixed sw2 detached mode parameter default -> 1 (active)\n- Removed parameters 36/39\n- Removed meter cc\n- Removed power notifications\n- Removed parameters no. 91, 92, 93, 94\n- Removed Inclusion/exclusion\" indication (2x ON/OFF output)\n- Changed energy reporting to two decimal points\n- other minor improvements",
-			"region": "USA",
+			"region": "usa",
 			"files": [
 				{
 					"url": "https://raw.githubusercontent.com/QubinoHelp/Shelly_Wave_FW_OTA/b20d9850f6932b68c55252a100bdfcba558d7fbe/Wave_Pro_1/US/Wave_Pro_1_US_LR_20260223_1018_QUSW-0A1X16US_%5Bv13.01%5D_2144DF1C (1).gbl",

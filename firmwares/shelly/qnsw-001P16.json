@@ -38,7 +38,7 @@
 		{
 			"version": "14.1",
 			"changelog": "- Corrected Overvoltage threshold to 240+15%V",
-			"region": "USA",
+			"region": "usa",
 			"files": [
 				{
 					"url": "https://raw.githubusercontent.com/QubinoHelp/Shelly_Wave_FW_OTA/68354455ae3912c7dafa269c8793bc6dd34ebe65/Wave_1PM/US/Wave_1PM_800_US_LR_20260311_0819_QLSW-001P15US_%5Bv14.01%5D_0FE4B35C.gbl",

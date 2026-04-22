@@ -38,7 +38,7 @@
 		{
 			"version": "13.2",
 			"changelog": "- SDK with fixed dead node issue\n- Fixed Overvoltage (230V + 15% -> 240V + 15%)\n- Fixed Overcurrent (25.5A -> 16A + 15%)\n- Fixed soft reset from input toggles\n- Fixed sw2 detached mode parameter default -> 1 (active)\n- Removed parameters no. 91, 92, 93, 94\n- Removed Inclusion/exclusion indication (2x ON/OFF output)\n- Changed energy reporting to two decimal points\n- other minor improvements",
-			"region": "USA",
+			"region": "usa",
 			"files": [
 				{
 					"url": "https://raw.githubusercontent.com/QubinoHelp/Shelly_Wave_FW_OTA/b20d9850f6932b68c55252a100bdfcba558d7fbe/Wave_Pro_1PM/US/Wave_Pro_1PM_US_LR_20260229_1040_QUSW-0A1P15US_%5Bv13.02%5D_0FE4B35C.gbl",
