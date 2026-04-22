@@ -14,6 +14,17 @@
 	],
 	"upgrades": [
 		{
+			"version": "12.2",
+			"changelog": "- SDK with fixed dead node issue\n- fixed AC disconnect alarm functionality\n- improved Zero Crossing detection",
+			"region": "europe",
+			"files": [
+				{
+					"url": "https://raw.githubusercontent.com/QubinoHelp/Shelly_Wave_FW_OTA/7f92ad9cde6240d0d66eae213f81d38e7096ceff/Wave_Plug_S/EU/Wave_PlugS_800_EU_LR_20260205_1034_QLPL-0A112EU_%5B12.02%5D_0FE4B35C.gbl",
+					"integrity": "sha256:d6ff2545198f52f075d3024bebd7ce56d212dc65551eac874233eaf9503580a8"
+				}
+			]
+		},
+		{
 			"version": "11.4",
 			"changelog": "- Added kWh precision 2 decimals\n- Added min value for Par 105 -> 0 - off\n- Added Indicator Command Class\n- Removed Parameters 91 - 94\n- Removed Association group 3\n- Removed voltage & ampere reports\n- Other minor Fixes & Improvements",
 			"region": "europe",

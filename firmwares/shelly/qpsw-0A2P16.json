@@ -14,6 +14,37 @@
 	],
 	"upgrades": [
 		{
+			"version": "13.4",
+			"changelog": "- SDK with fixed dead node issue\n- Fixed overcurrent alarm threshold\n- Fixed LED system caused soft reset\n- Fixed reboot parameter returned to 0 after activation\n- Fixed Meter CC on endpoints\n- Fixed respond to Import rate type Meter get command\n- Fixed Binary Switch Reporting in association with Normally Open / Normally Closed(NO/NC)\n- Added Parameter 117 for device rebooting\n- Changed Energy reporting to 2 decimal points\n- Removed AC main disconnected alarm\n- Removed PARs 91, 92, 93, 94\n- Removed Indicator for successful inclusion\n- other minor improvements",
+			"region": "australia/new zealand",
+			"files": [
+				{
+					"url": "https://raw.githubusercontent.com/QubinoHelp/Shelly_Wave_FW_OTA/b20d9850f6932b68c55252a100bdfcba558d7fbe/Wave_Pro_2PM/ANZ/Wave_PRO_2PM_800_ANZ_20260310_1323_QPSW-0A2P16AU_%5Bv13.04%5D_0FE4B35C.gbl",
+					"integrity": "sha256:1c611c0d9d2dd07f23d63ce706332e7aa7d208d5818503bdd7e2363937aad2eb"
+				}
+			]
+		},
+		{
+			"version": "13.4",
+			"changelog": "- SDK with fixed dead node issue\n- Fixed overcurrent alarm threshold\n- Fixed LED system caused soft reset\n- Fixed reboot parameter returned to 0 after activation\n- Fixed Meter CC on endpoints\n- Fixed respond to Import rate type Meter get command\n- Fixed Binary Switch Reporting in association with Normally Open / Normally Closed(NO/NC)\n- Added Parameter 117 for device rebooting\n- Changed Energy reporting to 2 decimal points\n- Removed AC main disconnected alarm\n- Removed PARs 91, 92, 93, 94\n- Removed Indicator for successful inclusion\n- other minor improvements",			"region": "europe",
+			"files": [
+				{
+					"url": "https://raw.githubusercontent.com/QubinoHelp/Shelly_Wave_FW_OTA/b20d9850f6932b68c55252a100bdfcba558d7fbe/Wave_Pro_2PM/EU/Wave_PRO_2PM_800_EU_LR_20260310_1041_QUSW-0A2P16EU_%5Bv13.04%5D_EB201890.gbl",
+					"integrity": "sha256:db5aa0beecf43d8bc5218afca2516876a5e9f5a40e78747dc3fa97e858621dd7"
+				}
+			]
+		},
+		{
+			"version": "13.4",
+			"changelog": "- SDK with fixed dead node issue\n- Fixed overcurrent alarm threshold\n- Fixed LED system caused soft reset\n- Fixed reboot parameter returned to 0 after activation\n- Fixed Meter CC on endpoints\n- Fixed respond to Import rate type Meter get command\n- Fixed Binary Switch Reporting in association with Normally Open / Normally Closed(NO/NC)\n- Added Parameter 117 for device rebooting\n- Changed Energy reporting to 2 decimal points\n- Removed AC main disconnected alarm\n- Removed PARs 91, 92, 93, 94\n- Removed Indicator for successful inclusion\n- other minor improvements",			"region": "USA",
+			"files": [
+				{
+					"url": "https://raw.githubusercontent.com/QubinoHelp/Shelly_Wave_FW_OTA/b20d9850f6932b68c55252a100bdfcba558d7fbe/Wave_Pro_2PM/US/Wave_PRO_2PM_800_US_LR_20260310_1324_QUSW-0A2P25US_%5Bv13.04%5D_2144DF1C.gbl",
+					"integrity": "sha256:38bb1c35dafa1054568b42134c7ba89795e85396f5d252b19339b5401bc0b1a6"
+				}
+			]
+		},
+		{
 			"version": "10.8",
 			"changelog": "- optimised temperature conversion table\n- other minor improvements",
 			"region": "europe",
